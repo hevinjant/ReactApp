@@ -28,7 +28,7 @@ function TableBody(props) {
   return (
       <tbody>
         {rows}
-       </tbody>
+      </tbody>
    );
 }
 
