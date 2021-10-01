@@ -47,6 +47,18 @@ function MyApp() {
       }
     }
 
+    // make POST request, passing person(JSON object) that will go in the body of the http post request
+    async function makePostCall(person) {
+      try {
+        const response = await axios.post('http://localhost:5000/users', person);
+        return response;
+      }
+      catch (error) {
+        console.log(error);
+        return false;
+      }
+    }
+
     function removeOneCharacter(index) {
       const updated = characters.filter((character, i) => {
         return i !== index
@@ -55,7 +67,12 @@ function MyApp() {
     }
 
     function updateList(person) {
-      setCharacters([...characters, person]);
+      //setCharacters([...characters, person]);
+      makePostCall(person).then(response => {
+        if (response) { 
+          setCharacters([...characters, response.data]);
+        }
+      })
     }
 
     return (
