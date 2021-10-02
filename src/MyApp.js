@@ -45,6 +45,7 @@ function MyApp() {
       const id = characters[index]["id"]
       try {
         const response = await axios.delete('http://localhost:5000/users/' + id);
+        console.log(response)
         return response
       }
       catch (error) {
