@@ -5,25 +5,6 @@ import Table from './Table.js'
 import Form from './Form.js'
 import axios from 'axios'
 
-// const characters = [
-//       {
-//         name: 'Charlie',
-//         job: 'Janitor',
-//       },
-//       {
-//         name: 'Mac',
-//         job: 'Bouncer',
-//       },
-//       {
-//         name: 'Dee',
-//         job: 'Aspring actress',
-//       },
-//       {
-//         name: 'Dennis',
-//         job: 'Bartender',
-//       },
-// ];
-
 function MyApp() {
     const [characters, setCharacters] = useState([]);
 
@@ -51,6 +32,7 @@ function MyApp() {
     async function makePostCall(person) {
       try {
         const response = await axios.post('http://localhost:5000/users', person);
+        console.log(response)
         return response;
       }
       catch (error) {
@@ -59,15 +41,30 @@ function MyApp() {
       }
     }
 
+    async function makeDeleteCall(index) {
+      const id = characters[index]["id"]
+      try {
+        const response = await axios.delete('http://localhost:5000/users/' + id);
+        return response
+      }
+      catch (error) {
+        console.log(error);
+        return false;
+      }
+    }
+    
     function removeOneCharacter(index) {
-      const updated = characters.filter((character, i) => {
-        return i !== index
-      });
-      setCharacters(updated);
+      makeDeleteCall(index).then(result => {
+        if (result) {
+          const updated = characters.filter((character, i) => {
+            return i !== index
+          });
+          setCharacters(updated);
+        }
+      })
     }
 
     function updateList(person) {
-      //setCharacters([...characters, person]);
       makePostCall(person).then(response => {
         if (response) { 
           setCharacters([...characters, response.data]);
