@@ -10,6 +10,7 @@ function MyApp() {
 
     useEffect(() => {
       fetchAll().then(result => {
+        console.log(result)
         if (result) {
           setCharacters(result);
         }
@@ -42,7 +43,8 @@ function MyApp() {
     }
 
     async function makeDeleteCall(index) {
-      const id = characters[index]["id"]
+      const id = characters[index]["_id"]
+      console.log(id)
       try {
         const response = await axios.delete('http://localhost:5000/users/' + id);
         console.log(response)
